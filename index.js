@@ -37,8 +37,8 @@ function updateExpenseList() {
       <td>
         <button class="edit-btn">Edit</button>
         <button class="delete-btn">Delete</button>
-      </td>`
-    ;
+      </td>
+    `;
     expenseList.appendChild(row);
 
     // Add event listeners for edit and delete buttons
@@ -59,3 +59,31 @@ function updateExpenseList() {
     });
   });
 }
+
+// Function to calculate and update the total
+function updateTotal() {
+  const total = expenses.reduce((acc, expense) => acc + expense.amount, 0);
+  totalElement.textContent = total.toFixed(2);
+}
+
+// Function to clear the expense form
+function clearForm() {
+  document.getElementById('name').value = '';
+  document.getElementById('amount').value = '';
+  document.getElementById('category').value = 'Food'; // Default category
+  document.getElementById('date').value = '';
+}
+
+// Function to filter expenses by category
+function filterExpenses(category) {
+  const filteredExpenses = category === 'all' ? expenses : expenses.filter(expense => expense.category === category);
+  updateExpenseList(filteredExpenses);
+}
+
+// Event listeners
+expenseForm.addEventListener('submit', addExpense);
+filterSelect.addEventListener('change', (event) => filterExpenses(event.target.value));
+
+// Initial call to update the expense list
+updateExpenseList();
+updateTotal();
